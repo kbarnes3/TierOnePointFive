@@ -16,7 +16,7 @@ setuptools.setup(name='tieronepointfive',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.6',
           ],
-      install_requires=[],
+      install_requires=['appdirs>=1.4.3'],
       packages=['tieronepointfive', ],
       entry_points={
           'console_scripts': [
