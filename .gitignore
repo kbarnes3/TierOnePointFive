@@ -6,6 +6,7 @@ build/
 dist/
 MANIFEST
 /venv
+.cache/
 .eggs/
 *egg-info/
 

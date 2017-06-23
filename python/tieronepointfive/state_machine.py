@@ -4,7 +4,7 @@ class StateMachineTick:
         self.end_state = None
     
     def is_complete(self):
-        return self.end_state Is Not None
+        return self.end_state is not None
 
 
 class StateMachine:
@@ -13,6 +13,4 @@ class StateMachine:
 
     def evaluate(self):
         if self.tick.is_complete():
-            throw "Unable to evaluate a completed tick"
-
-
+            raise "Unable to evaluate a completed tick"
