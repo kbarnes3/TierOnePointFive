@@ -17,6 +17,8 @@ setuptools.setup(name='tieronepointfive',
           'Programming Language :: Python :: 3.6',
           ],
       install_requires=['appdirs>=1.4.3'],
+      setup_requires=['pytest-runner'],
+      tests_require=['pytest'],
       packages=['tieronepointfive', ],
       entry_points={
           'console_scripts': [

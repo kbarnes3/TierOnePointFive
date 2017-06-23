@@ -6,6 +6,7 @@ build/
 dist/
 MANIFEST
 /venv
+.eggs/
 *egg-info/
 
 #PyCharm files
