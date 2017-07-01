@@ -1,3 +1,5 @@
+import itertools
+
 from tieronepointfive.enums import State, Transition
 from tieronepointfive.state_machine import StateMachine, StateMachineTick
 
@@ -27,10 +29,9 @@ def test_failing_ticks():
         for i in range(2, len(tick_list)):
             _assert_ticks_equal(tick_list[i], expected_other_tick)
 
-    def evaluation_func():
-        return Transition.NO_SITES_REACHED, State.CONNECTION_FAILED
+    evaluation_generator = itertools.repeat((Transition.NO_SITES_REACHED, State.CONNECTION_FAILED))
 
-    mock_evaluator = MockEvaluator(evaluation_func)
+    mock_evaluator = MockEvaluator(evaluation_generator)
 
     start_tick = StateMachineTick(State.CONNECTION_WORKING, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING)
     machine = StateMachine(mock_evaluator, [start_tick])
@@ -47,10 +48,9 @@ def test_steady_state_ticks():
         expected_tick = StateMachineTick(State.CONNECTION_WORKING, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING)
         _assert_ticks_equal(tick_list[0], expected_tick)
 
-    def evaluation_func():
-        return Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING
+    evaluation_generator = itertools.repeat((Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING))
 
-    mock_evaluator = MockEvaluator(evaluation_func)
+    mock_evaluator = MockEvaluator(evaluation_generator)
 
     start_tick = StateMachineTick(State.CONNECTION_WORKING, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING)
     machine = StateMachine(mock_evaluator, [start_tick])
@@ -58,4 +58,20 @@ def test_steady_state_ticks():
     for _ in range(1,15):
         tick_list = machine.evaluate()
         verify_tick_list(tick_list)
+
+
+def test_typical_ticks():
+    def verify_tick_list(actual_tick_list, expected_tick_list):
+        assert len(actual_tick_list) == len(expected_tick_list)
+
+        for actual_tick, expected_tick in zip(actual_tick_list, expected_tick_list):
+            _assert_ticks_equal(actual_tick, expected_tick)
+
+    def evaluation_func():
+        pass
+
+    assert False
+
+
+
 
