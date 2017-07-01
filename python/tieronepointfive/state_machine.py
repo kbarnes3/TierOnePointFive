@@ -1,3 +1,6 @@
+from .enums import State
+
+
 class StateMachineTick:
     def __init__(self, start_state, transition=None, end_state=None):
         self.start_state = start_state
@@ -13,6 +16,9 @@ class StateMachineTick:
     def is_complete(self):
         return (self.transition is not None) and (self.end_state is not None)
 
+    def is_steady(self):
+        return self.end_state == State.CONNECTION_WORKING
+
 
 class StateMachine:
     def __init__(self, evaluator, tick_list):
@@ -23,5 +29,8 @@ class StateMachine:
         last_tick = self.tick_list[-1]
         new_tick = StateMachineTick(last_tick.end_state)
         completed_tick = self.evaluator.evaluate_tick(new_tick)
-        self.tick_list.append(completed_tick)
+        if completed_tick.is_steady():
+            self.tick_list = [completed_tick]
+        else:
+            self.tick_list.append(completed_tick)
         return self.tick_list
