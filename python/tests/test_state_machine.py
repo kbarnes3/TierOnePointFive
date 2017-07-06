@@ -67,10 +67,38 @@ def test_typical_ticks():
         for actual_tick, expected_tick in zip(actual_tick_list, expected_tick_list):
             _assert_ticks_equal(actual_tick, expected_tick)
 
-    def evaluation_func():
-        pass
+    expected_ticks = [
+        StateMachineTick(State.CONNECTION_WORKING, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING),
+        StateMachineTick(State.CONNECTION_WORKING, Transition.NO_SITES_REACHED, State.CONNECTION_FAILED),
+        StateMachineTick(State.CONNECTION_FAILED, Transition.NO_SITES_REACHED, State.CABLE_MODEM_REBOOT_NEEDED),
+        StateMachineTick(State.CABLE_MODEM_REBOOT_NEEDED, Transition.CABLE_MODEM_POWER_CYCLED, State.CABLE_MODEM_REBOOTING),
+        StateMachineTick(State.CABLE_MODEM_REBOOTING, Transition.NO_SITES_REACHED, State.ROUTER_REBOOT_NEEDED),
+        StateMachineTick(State.ROUTER_REBOOT_NEEDED, Transition.ROUTER_POWER_CYCLED, State.ROUTER_REBOOTING),
+        StateMachineTick(State.ROUTER_REBOOTING, Transition.ALL_SITES_REACHED, State.EMAIL_QUEUED),
+        StateMachineTick(State.EMAIL_QUEUED, Transition.EMAIL_SENT, State.CONNECTION_WORKING),
+        StateMachineTick(State.CONNECTION_WORKING, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING),
+    ]
 
-    assert False
+    def evaluation_generator_function():
+        for tick in expected_ticks[1:]:
+            yield (tick.transition, tick.end_state)
+
+    evaluation_generator = evaluation_generator_function()
+    mock_evaluator = MockEvaluator(evaluation_generator)
+    steady_state = expected_ticks[0]
+
+    machine = StateMachine(mock_evaluator, [steady_state])
+
+    for i in range(1, len(expected_ticks) - 2):
+        tick_list = machine.evaluate()
+        expected_sublist = expected_ticks[0:i + 1]
+        verify_tick_list(tick_list, expected_sublist)
+
+    tick_list = machine.evaluate()
+    verify_tick_list(tick_list, [expected_ticks[-2]])
+
+    tick_list = machine.evaluate()
+    verify_tick_list(tick_list, [expected_ticks[-1]])
 
 
 
