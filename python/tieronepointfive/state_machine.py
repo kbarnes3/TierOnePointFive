@@ -2,16 +2,24 @@ from .enums import State
 
 
 class StateMachineTick:
-    def __init__(self, start_state, transition=None, end_state=None):
+    def __init__(self, start_state):
         self.start_state = start_state
-        self.transition = transition
-        self.end_state = end_state
+        self.transition = None
+        self.end_state = None
+        self.is_terminal = None
 
-    def complete(self, transition, end_state):
+    @classmethod
+    def create_completed(cls, start_state, transition, end_state, is_terminal):
+        tick = cls(start_state)
+        tick.complete(transition, end_state, is_terminal)
+        return tick
+
+    def complete(self, transition, end_state, is_terminal):
         if self.is_complete():
             raise Exception("Unable to complete a completed tick")
         self.transition = transition
         self.end_state = end_state
+        self.is_terminal = is_terminal
     
     def is_complete(self):
         return (self.transition is not None) and (self.end_state is not None)
@@ -34,3 +42,6 @@ class StateMachine:
         else:
             self.tick_list.append(completed_tick)
         return self.tick_list
+
+    def is_terminal_state(self):
+        return self.tick_list[-1].is_terminal
