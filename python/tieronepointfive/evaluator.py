@@ -19,8 +19,7 @@ class Evaluator:
         if tick.is_complete():
             raise Exception("Can't evaluate an already completed tick")
 
-        evaluator_class = self._evaluator_helpers.get(tick.start_state, MissingHelper)
-        evaluator = evaluator_class()
+        evaluator = self._evaluator_helpers.get(tick.start_state, MissingHelper())
 
         completed_tick = evaluator.evaluate(tick)
         return completed_tick
