@@ -19,7 +19,7 @@ setuptools.setup(name='tieronepointfive',
       install_requires=['appdirs>=1.4.3'],
       setup_requires=['pytest-runner'],
       tests_require=['pytest'],
-      packages=['tieronepointfive', ],
+      packages=['tieronepointfive', 'tieronepointfive.evaluation_helpers'],
       entry_points={
           'console_scripts': [
               'tieronepointfive = tieronepointfive.console:run',
