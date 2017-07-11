@@ -12,8 +12,10 @@ class MissingHelper:
 
 
 class Evaluator:
-    def __init__(self):
-        self._evaluator_helpers = {}
+    def __init__(self, http_helper):
+        self._evaluator_helpers = {
+            State.CONNECTION_WORKING: http_helper
+        }
 
     def evaluate(self, tick):
         if tick.is_complete():
