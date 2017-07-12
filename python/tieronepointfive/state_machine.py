@@ -8,6 +8,14 @@ class StateMachineTick:
         self.end_state = None
         self.is_terminal = None
 
+    def __repr__(self):
+        return '<StateMachineTick start_state:{0} transition:{1} end_state:{2} is_terminal:{3}>'.format(
+            repr(self.start_state),
+            repr(self.transition),
+            repr(self.end_state),
+            repr(self.is_terminal)
+        )
+
     @classmethod
     def create_completed(cls, start_state, transition, end_state, is_terminal):
         tick = cls(start_state)
