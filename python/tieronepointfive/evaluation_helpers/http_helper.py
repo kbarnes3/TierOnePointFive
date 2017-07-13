@@ -8,7 +8,7 @@ class HttpHelper:
     def evaluate(self, tick):
         sites = [
             'https://www.google.com',
-            'http://www.bing.com',
+            'https://www.bing.com',
         ]
         sites_reached = 0
         for site in sites:
