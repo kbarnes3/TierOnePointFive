@@ -1,9 +1,13 @@
 import requests
+import requests.exceptions
 import requests_mock
 
 from tieronepointfive.enums import State, Transition
 from tieronepointfive.state_machine import StateMachineTick
 from tieronepointfive.evaluation_helpers import HttpHelper
+
+google = 'https://www.google.com'
+bing = 'https://www.bing.com'
 
 
 def _assert_ticks_equal(actual_tick, expected_tick):
@@ -15,14 +19,27 @@ def _assert_ticks_equal(actual_tick, expected_tick):
     assert actual_tick.is_terminal == expected_tick.is_terminal
 
 
+def _test_http_helper(expected_transition, expected_end_state, expected_is_terminal):
+    helper = HttpHelper()
+    start_tick = StateMachineTick(State.CONNECTION_WORKING)
+    actual_tick = helper.evaluate(start_tick)
+    expected_tick = StateMachineTick.create_completed(State.CONNECTION_WORKING, expected_transition, expected_end_state, expected_is_terminal)
+    _assert_ticks_equal(actual_tick, expected_tick)
+
+
 def test_http_helper_working_connection():
     with requests_mock.Mocker() as req_mock:
-        req_mock.get('https://www.google.com', text='sure')
-        req_mock.get('https://www.bing.com', text='sure')
+        req_mock.get(google, text='sure')
+        req_mock.get(bing, text='sure')
 
-        helper = HttpHelper()
-        start_tick = StateMachineTick(State.CONNECTION_WORKING)
-        actual_tick = helper.evaluate(start_tick)
-        expected_tick = StateMachineTick.create_completed(State.CONNECTION_WORKING, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING, True)
-        _assert_ticks_equal(actual_tick, expected_tick)
+        _test_http_helper(Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING, True)
+
+
+
+def test_http_helper_partially_working():
+    with requests_mock.Mocker() as req_mock:
+        req_mock.get(google, text='sure')
+        req_mock.get(bing, exc=requests.exceptions.ConnectTimeout)
+
+        _test_http_helper(Transition.SOME_SITES_REACHED, State.CONNECTION_FAILED, True)
 
