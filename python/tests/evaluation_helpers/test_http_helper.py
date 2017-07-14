@@ -35,11 +35,18 @@ def test_http_helper_working_connection():
         _test_http_helper(Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING, True)
 
 
-
 def test_http_helper_partially_working():
     with requests_mock.Mocker() as req_mock:
         req_mock.get(google, text='sure')
         req_mock.get(bing, exc=requests.exceptions.ConnectTimeout)
 
         _test_http_helper(Transition.SOME_SITES_REACHED, State.CONNECTION_FAILED, True)
+
+
+def test_http_helper_bad_return_codes():
+    with requests_mock.Mocker() as req_mock:
+        req_mock.get(google, text='bad', status_code=400)
+        req_mock.get(bing, text='bad', status_code=400)
+
+        _test_http_helper(Transition.NO_SITES_REACHED, State.CONNECTION_FAILED, True)
 
