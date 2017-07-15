@@ -1,7 +1,9 @@
 from enum import auto, Enum, unique
 
+
 @unique
 class State(Enum):
+    NO_DATA = auto()
     CONNECTION_WORKING = auto()
     CONNECTION_FAILED = auto()
     CABLE_MODEM_REBOOT_NEEDED = auto()
