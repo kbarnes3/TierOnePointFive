@@ -16,6 +16,14 @@ class StateMachineTick:
             repr(self.is_terminal)
         )
 
+    def __str__(self):
+        return 'Tick: "{0}" => "{1}" => "{2}" Terminal: {3}'.format(
+            str(self.start_state),
+            str(self.transition),
+            str(self.end_state),
+            str(self.is_terminal)
+        )
+
     @classmethod
     def create_completed(cls, start_state, transition, end_state, is_terminal):
         tick = cls(start_state)
