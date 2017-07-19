@@ -3,6 +3,9 @@ from enum import auto, Enum, unique
 
 @unique
 class State(Enum):
+    def __str__(self):
+        return self.name
+
     NO_DATA = auto()
     CONNECTION_WORKING = auto()
     CONNECTION_FAILED = auto()
@@ -15,6 +18,9 @@ class State(Enum):
 
 @unique
 class Transition(Enum):
+    def __str__(self):
+        return self.name
+
     ALL_SITES_REACHED = auto()
     SOME_SITES_REACHED = auto()
     NO_SITES_REACHED = auto()
