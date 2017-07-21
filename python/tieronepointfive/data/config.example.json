@@ -1,0 +1,5 @@
+{
+  "config": {
+    "cable_modem_switch": "hostname or ip"
+  }
+}
