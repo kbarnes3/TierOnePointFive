@@ -12,3 +12,7 @@ MANIFEST
 
 #PyCharm files
 .idea
+
+#TierOnePointFive test files
+config.json
+

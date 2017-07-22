@@ -10,7 +10,7 @@ class Config:
         if config_dir is None:
             dirs = DefaultDirectories()
             config_dir = dirs.config_directory
-        config_dir_path = Path(config_dir)
+        config_dir_path = Path(config_dir).resolve()
         config_file_path = config_dir_path / 'config.json'
         if not config_file_path.is_file():
             self._create_new_config_file(config_dir_path, config_file_path)
