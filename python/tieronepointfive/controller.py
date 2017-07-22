@@ -5,7 +5,8 @@ from tieronepointfive.state_machine import StateMachine
 
 
 class Controller:
-    def __init__(self, print_to_stdout=True):
+    def __init__(self, config, print_to_stdout=True):
+        self._config = config
         self._print_to_stdout = print_to_stdout
 
         evaluator = create_evaluator()
@@ -18,6 +19,7 @@ class Controller:
 
     def run(self):
         self._print('Starting Tier 1.5')
+        self._print('Data directory: {0}'.format(self._config.data_directory))
         self._print('Last tick from last run: {0}'.format(self._last_run_tick))
 
         is_terminal = False

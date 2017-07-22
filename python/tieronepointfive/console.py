@@ -15,5 +15,5 @@ def _process_command_line(argv):
     args = parser.parse_args(argv)
 
     config = Config(args.config_dir)
-    controller = Controller()
+    controller = Controller(config)
     controller.run()

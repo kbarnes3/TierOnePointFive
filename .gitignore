@@ -15,4 +15,5 @@ MANIFEST
 
 #TierOnePointFive test files
 config.json
+/TestData/
 

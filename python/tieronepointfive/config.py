@@ -24,7 +24,7 @@ class Config:
         example_config_file = Path(__file__).parent / 'data' / 'config.example.json'
         shutil.copy(example_config_file, config_file_path)
 
-        print('A new config file was created at:\n{0}\nPlease ensure it is correct before running TierOnePointFive'.format(str(config_file_path)))
+        print('A new config file was created at:\n{0}\nPlease ensure it is correct before running Tier 1.5'.format(str(config_file_path)))
         sys.exit(1)
 
     def _load_config_file(self, config_file, default_dirs):
@@ -34,14 +34,14 @@ class Config:
         config = config_root['config']
         data_dir_label = 'data_dir'
         if data_dir_label in config:
-            self._data_dir = config[data_dir_label]
+            data_dir = config[data_dir_label]
         else:
-            self._data_dir = default_dirs.data_directory
+            data_dir = default_dirs.data_directory
 
-        test_data_dir = Path(self._data_dir)
-        test_data_dir.mkdir(parents=True, exist_ok=True)
+        self._data_dir = Path(data_dir).resolve()
+        self._data_dir.mkdir(parents=True, exist_ok=True)
 
     @property
-    def data_dir(self):
+    def data_directory(self):
         return self._data_dir
 
