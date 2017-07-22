@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 import shutil
 import sys
@@ -7,13 +8,15 @@ from tieronepointfive.directories import DefaultDirectories
 
 class Config:
     def __init__(self, config_dir=None):
+        dirs = DefaultDirectories()
         if config_dir is None:
-            dirs = DefaultDirectories()
             config_dir = dirs.config_directory
         config_dir_path = Path(config_dir).resolve()
         config_file_path = config_dir_path / 'config.json'
         if not config_file_path.is_file():
             self._create_new_config_file(config_dir_path, config_file_path)
+
+        self._load_config_file(config_file_path, dirs)
 
     @staticmethod
     def _create_new_config_file(config_dir_path, config_file_path):
@@ -23,3 +26,22 @@ class Config:
 
         print('A new config file was created at:\n{0}\nPlease ensure it is correct before running TierOnePointFive'.format(str(config_file_path)))
         sys.exit(1)
+
+    def _load_config_file(self, config_file, default_dirs):
+        with config_file.open() as f:
+            config_root = json.load(f)
+
+        config = config_root['config']
+        data_dir_label = 'data_dir'
+        if data_dir_label in config:
+            self._data_dir = config[data_dir_label]
+        else:
+            self._data_dir = default_dirs.data_directory
+
+        test_data_dir = Path(self._data_dir)
+        test_data_dir.mkdir(parents=True, exist_ok=True)
+
+    @property
+    def data_dir(self):
+        return self._data_dir
+
