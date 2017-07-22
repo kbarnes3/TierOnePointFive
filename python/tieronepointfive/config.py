@@ -3,6 +3,8 @@ from pathlib import Path
 import shutil
 import sys
 
+from jsoncomment import JsonComment
+
 from tieronepointfive.directories import DefaultDirectories
 
 
@@ -28,8 +30,9 @@ class Config:
         sys.exit(1)
 
     def _load_config_file(self, config_file, default_dirs):
+        parser = JsonComment(json)
         with config_file.open() as f:
-            config_root = json.load(f)
+            config_root = parser.load(f)
 
         config = config_root['config']
         data_dir_label = 'data_dir'
