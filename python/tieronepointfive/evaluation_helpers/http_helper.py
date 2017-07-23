@@ -1,8 +1,8 @@
-from collections import namedtuple
 import requests
 import requests.exceptions
 
 from tieronepointfive.enums import State, Transition
+from tieronepointfive.evaluation_helpers.transitions import get_best_transition, TransitionRule
 
 
 class HttpHelper:
@@ -45,7 +45,6 @@ class HttpHelper:
         return State.CONNECTION_WORKING, True
 
     def _get_failure_end_state(self, start_state):
-        TransitionRule = namedtuple('TransitionRule', ['start_state', 'next_state', 'is_terminal', 'requirement'])
         rules = [
             TransitionRule(
                 State.CONNECTION_WORKING,
@@ -61,12 +60,4 @@ class HttpHelper:
             ),
         ]
 
-        for i, rule in enumerate(rules):
-            if start_state == rule.start_state:
-                candidate_index = i
-                break
-
-        prioritized_rules = rules[candidate_index:] + rules[:candidate_index]
-        for candidate_rule in prioritized_rules:
-            if (candidate_rule.requirement(self._config)):
-                return candidate_rule.next_state, candidate_rule.is_terminal
+        return get_best_transition(rules, self._config, start_state)

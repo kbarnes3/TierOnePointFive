@@ -4,6 +4,7 @@ from ouimeaux.environment import Environment
 
 from tieronepointfive.enums import State, Transition
 
+
 class WemoHelper:
     def __init__(self, config):
         self._config = config
