@@ -5,6 +5,7 @@ import requests_mock
 from tieronepointfive.enums import State, Transition
 from tieronepointfive.state_machine import StateMachineTick
 from tieronepointfive.evaluation_helpers import HttpHelper
+from ..mock_config import MockConfig
 
 google = 'https://www.google.com'
 bing = 'https://www.bing.com'
@@ -20,7 +21,8 @@ def _assert_ticks_equal(actual_tick, expected_tick):
 
 
 def _test_http_helper(expected_transition, expected_end_state, expected_is_terminal):
-    helper = HttpHelper()
+    config = MockConfig
+    helper = HttpHelper(config)
     start_tick = StateMachineTick(State.CONNECTION_WORKING)
     actual_tick = helper.evaluate(start_tick)
     expected_tick = StateMachineTick.create_completed(State.CONNECTION_WORKING, expected_transition, expected_end_state, expected_is_terminal)
