@@ -5,7 +5,8 @@ class Evaluator:
     def __init__(self, http_helper):
         self._evaluator_helpers = {
             State.FRESH_DATA_FILE: http_helper,
-            State.CONNECTION_WORKING: http_helper
+            State.CONNECTION_WORKING: http_helper,
+            State.CONNECTION_FAILED: http_helper
         }
 
     def evaluate_tick(self, tick):

@@ -28,10 +28,18 @@ class HttpHelper:
             transition = Transition.SOME_SITES_REACHED
 
         if transition == Transition.ALL_SITES_REACHED:
-            end_state = State.CONNECTION_WORKING
+            end_state, is_terminal = self._get_success_end_state(tick.start_state)
         else:
-            end_state = State.CONNECTION_FAILED
+            end_state, is_terminal = self._get_failure_end_state(tick.start_state)
 
-        tick.complete(transition, end_state, True)
+        tick.complete(transition, end_state, is_terminal)
 
         return tick
+
+    @staticmethod
+    def _get_success_end_state(start_state):
+        return State.CONNECTION_WORKING, True
+
+    @staticmethod
+    def _get_failure_end_state(start_state):
+        return State.CONNECTION_FAILED, True
