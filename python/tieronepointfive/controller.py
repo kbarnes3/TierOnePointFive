@@ -10,7 +10,7 @@ class Controller:
         self._config = config
         self._print_to_stdout = print_to_stdout
 
-        evaluator = create_evaluator()
+        evaluator = create_evaluator(config)
         self._pickler = DataPickler(config)
 
         self._data = self._pickler.load()

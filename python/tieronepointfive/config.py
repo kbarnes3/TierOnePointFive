@@ -35,6 +35,10 @@ class Config:
             config_root = parser.load(f)
 
         config = config_root['config']
+        self._load_data_dir(config, default_dirs)
+        self._load_cable_modem_switch(config)
+
+    def _load_data_dir(self, config, default_dirs):
         data_dir_label = 'data_dir'
         if data_dir_label in config:
             data_dir = config[data_dir_label]
@@ -47,4 +51,20 @@ class Config:
     @property
     def data_directory(self):
         return self._data_dir
+
+    def _load_cable_modem_switch(self, config):
+        cable_modem_switch_label = 'cable_modem_switch'
+        if cable_modem_switch_label in config:
+            self._cable_modem_switch = config[cable_modem_switch_label]
+        else:
+            self._cable_modem_switch = None
+
+    @property
+    def cable_modem_switch(self):
+        return self._cable_modem_switch
+
+    @property
+    def can_reboot_cable_modem(self):
+        return self._cable_modem_switch is not None
+
 
