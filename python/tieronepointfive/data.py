@@ -47,8 +47,12 @@ class DataPickler:
 
         return data
 
-    def _create_error_parsing_data(self):
-        pass
+    @staticmethod
+    def _create_error_parsing_data():
+        tick = StateMachineTick.create_completed(State.BAD_DATA_FILE, Transition.DATA_FILE_CREATED, State.FRESH_DATA_FILE, True)
+        data = Data([tick])
+
+        return data
 
     @staticmethod
     def _is_valid_data(data):
