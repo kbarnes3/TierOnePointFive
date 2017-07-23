@@ -26,6 +26,11 @@ class DataPickler:
 
         return data
 
+    def dump(self, data):
+        data_file = self._get_data_file()
+        with data_file.open('wb') as f:
+            pickle.dump(data, f)
+
     def _get_data_file(self):
         if self._data_file is None:
             data_dir = self._config.data_directory
@@ -34,7 +39,9 @@ class DataPickler:
         return self._data_file
 
     def _load_existing_data(self, data_file):
-        data = None
+        with data_file.open('rb') as f:
+            data = pickle.load(f)
+
         if not self._is_valid_data(data):
             raise Exception('Invalid data object loaded')
 
