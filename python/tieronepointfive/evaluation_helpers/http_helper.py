@@ -58,6 +58,18 @@ class HttpHelper:
                 False,
                 lambda config: config.can_reboot_cable_modem
             ),
+            TransitionRule(
+                State.CABLE_MODEM_REBOOTING,
+                State.ROUTER_REBOOT_NEEDED,
+                False,
+                lambda config: False
+            ),
+            TransitionRule(
+                State.CABLE_MODEM_REBOOT_FAILED,
+                State.ROUTER_REBOOT_NEEDED,
+                False,
+                lambda config: False
+            ),
         ]
 
         return get_best_transition(rules, self._config, start_state)

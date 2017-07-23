@@ -2,6 +2,6 @@
   "config": {
     # Uncomment lines to override the defaults. Leave the lines commented or deleted them to accept the defaults
     #"data_dir":"",
-    #"cable_modem_switch": "hostname or ip"
+    #"cable_modem_switch": "Wemo Name"
   }
 }

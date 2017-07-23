@@ -13,8 +13,10 @@ class State(Enum):
     CONNECTION_FAILED = auto()
     CABLE_MODEM_REBOOT_NEEDED = auto()
     CABLE_MODEM_REBOOTING = auto()
+    CABLE_MODEM_REBOOT_FAILED = auto()
     ROUTER_REBOOT_NEEDED = auto()
     ROUTER_REBOOTING = auto()
+    ROUTER_REBOOT_FAILED = auto()
     EMAIL_QUEUED = auto()
 
 
