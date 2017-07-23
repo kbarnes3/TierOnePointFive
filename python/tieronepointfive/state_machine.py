@@ -50,12 +50,8 @@ class StateMachine:
         self.tick_list = tick_list
 
     def evaluate(self):
-        if self.tick_list and len(self.tick_list) > 0:
-            last_tick = self.tick_list[-1]
-            new_tick = StateMachineTick(last_tick.end_state)
-        else:
-            new_tick = StateMachineTick(State.NO_DATA)
-            self.tick_list = []
+        last_tick = self.tick_list[-1]
+        new_tick = StateMachineTick(last_tick.end_state)
 
         completed_tick = self.evaluator.evaluate_tick(new_tick)
         if completed_tick.is_steady():

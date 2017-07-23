@@ -4,7 +4,7 @@ from .enums import State
 class Evaluator:
     def __init__(self, http_helper):
         self._evaluator_helpers = {
-            State.NO_DATA: http_helper,
+            State.FRESH_DATA_FILE: http_helper,
             State.CONNECTION_WORKING: http_helper
         }
 

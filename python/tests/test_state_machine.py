@@ -103,33 +103,3 @@ def test_typical_ticks():
 
     tick_list = machine.evaluate()
     verify_tick_list(tick_list, [expected_ticks[-1]])
-
-
-def test_empty_start():
-    def verify_tick_list(actual_tick_list, expected_tick_list):
-        assert len(actual_tick_list) == len(expected_tick_list)
-
-        for actual_tick, expected_tick in zip(actual_tick_list, expected_tick_list):
-            _assert_ticks_equal(actual_tick, expected_tick)
-
-    empty_tick = StateMachineTick.create_completed(State.NO_DATA, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING, True)
-    steady_tick = StateMachineTick.create_completed(State.CONNECTION_WORKING, Transition.ALL_SITES_REACHED, State.CONNECTION_WORKING, True)
-
-    expected_ticks = [
-        empty_tick,
-        steady_tick
-    ]
-
-    def evaluation_generator_function():
-        for tick in expected_ticks:
-            yield (tick.transition, tick.end_state, tick.is_terminal)
-    evaluation_generator = evaluation_generator_function()
-    mock_evaluator = MockEvaluator(evaluation_generator)
-
-    machine = StateMachine(mock_evaluator, None)
-
-    tick_list = machine.evaluate()
-    verify_tick_list(tick_list, [empty_tick])
-
-    tick_list = machine.evaluate()
-    verify_tick_list(tick_list, [steady_tick])

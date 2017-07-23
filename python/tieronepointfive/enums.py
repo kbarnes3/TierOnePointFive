@@ -6,7 +6,9 @@ class State(Enum):
     def __str__(self):
         return self.name
 
-    NO_DATA = auto()
+    NO_DATA_FILE = auto()
+    BAD_DATA_FILE = auto()
+    FRESH_DATA_FILE = auto()
     CONNECTION_WORKING = auto()
     CONNECTION_FAILED = auto()
     CABLE_MODEM_REBOOT_NEEDED = auto()
@@ -21,6 +23,7 @@ class Transition(Enum):
     def __str__(self):
         return self.name
 
+    DATA_FILE_CREATED = auto()
     ALL_SITES_REACHED = auto()
     SOME_SITES_REACHED = auto()
     NO_SITES_REACHED = auto()

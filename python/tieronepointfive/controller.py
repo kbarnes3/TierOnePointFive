@@ -1,5 +1,6 @@
 import datetime
 
+from tieronepointfive.data import DataPickler
 from tieronepointfive.evaluator_factory import create_evaluator
 from tieronepointfive.state_machine import StateMachine
 
@@ -10,8 +11,11 @@ class Controller:
         self._print_to_stdout = print_to_stdout
 
         evaluator = create_evaluator()
-        self._state_machine = StateMachine(evaluator, None)
-        self._last_run_tick = None
+        pickler = DataPickler(config)
+
+        self._data = pickler._create_fresh_data()
+        self._last_run_tick = self._data.tick_list[-1]
+        self._state_machine = StateMachine(evaluator, self._data.tick_list)
 
     def _print(self, msg):
         if self._print_to_stdout:
