@@ -20,6 +20,10 @@ class Controller:
         if self._print_to_stdout:
             print('[{0}]: {1}'.format(datetime.datetime.now(), msg))
 
+    def _print_tick(self, tick):
+        if self._print_to_stdout:
+            print(tick)
+
     def run(self):
         self._print('Starting Tier 1.5')
         self._print('Data directory: {0}'.format(self._config.data_directory))
@@ -30,7 +34,7 @@ class Controller:
         while not is_terminal:
             tick_list = self._state_machine.evaluate()
             new_tick = tick_list[-1]
-            self._print(new_tick)
+            self._print_tick(new_tick)
             is_terminal = self._state_machine.is_terminal_state()
 
         self._data.tick_list = tick_list

@@ -1,3 +1,4 @@
+import datetime
 from .enums import State
 
 
@@ -7,6 +8,7 @@ class StateMachineTick:
         self.transition = None
         self.end_state = None
         self.is_terminal = None
+        self.complete_time = None
 
     def __repr__(self):
         return '<StateMachineTick start_state:{0} transition:{1} end_state:{2} is_terminal:{3}>'.format(
@@ -17,11 +19,11 @@ class StateMachineTick:
         )
 
     def __str__(self):
-        return 'Tick: "{0}" => "{1}" => "{2}" Terminal: {3}'.format(
+        return '[{0}] Tick: "{1}" => "{2}" => "{3}"'.format(
+            self.complete_time,
             str(self.start_state),
             str(self.transition),
-            str(self.end_state),
-            str(self.is_terminal)
+            str(self.end_state)
         )
 
     @classmethod
@@ -36,6 +38,7 @@ class StateMachineTick:
         self.transition = transition
         self.end_state = end_state
         self.is_terminal = is_terminal
+        self.complete_time = datetime.datetime.now()
     
     def is_complete(self):
         return (self.transition is not None) and (self.end_state is not None)

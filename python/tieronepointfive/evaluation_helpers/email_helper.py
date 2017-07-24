@@ -27,17 +27,31 @@ class EmailHelper:
         s.quit()
 
     def _prepare_email_body(self, msg, tick_list):
-        opening = "Tier 1.5 detected a network event and attempted to correct it as appropriate"
+        opening = "Tier 1.5 detected a network event. The details and actions performed are below."
 
-        text = '{0}\n'.format(opening)
+        text = '{0}\n\n'.format(opening)
 
         html = """\
 <html>
     <head></head>
     <body>
         <p>{0}</p>
+        <ul>
+""".format(opening)
+
+        reverse_tick_list = tick_list[:]
+        reverse_tick_list.reverse()
+        for tick in reverse_tick_list:
+            text += "    {0}\n".format(str(tick))
+            html += "            <li>{0}</li>\n".format(str(tick))
+
+        text += "Sincerely,\n-Tier 1.5"
+        html += """\
+        </ul>
+        <p>Sincerely,<br />
+        -Tier 1.5</p>
     </body>
-</html>""".format(opening)
+</html>"""
 
         # Record the MIME types of both parts - text/plain and text/html.
         part1 = MIMEText(text, 'plain')
