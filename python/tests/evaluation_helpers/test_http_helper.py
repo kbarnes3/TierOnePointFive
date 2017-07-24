@@ -21,7 +21,7 @@ def _assert_ticks_equal(actual_tick, expected_tick):
 
 
 def _test_http_helper(expected_transition, expected_end_state, expected_is_terminal):
-    config = MockConfig
+    config = MockConfig()
     helper = HttpHelper(config)
     start_tick = StateMachineTick(State.CONNECTION_WORKING)
     actual_tick = helper.evaluate(start_tick)
