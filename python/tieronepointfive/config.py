@@ -37,6 +37,7 @@ class Config:
         config = config_root['config']
         self._load_data_dir(config, default_dirs)
         self._load_cable_modem_switch(config)
+        self._load_email_settings(config)
 
     def _load_data_dir(self, config, default_dirs):
         data_dir_label = 'data_dir'

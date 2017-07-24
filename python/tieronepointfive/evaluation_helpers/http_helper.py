@@ -40,9 +40,11 @@ class HttpHelper:
 
         return tick
 
-    @staticmethod
-    def _get_success_end_state(start_state):
-        return State.CONNECTION_WORKING, True
+    def _get_success_end_state(self, start_state):
+        if self._config.can_send_email and start_state != State.CONNECTION_WORKING:
+            return State.EMAIL_QUEUED, False
+        else:
+            return State.CONNECTION_WORKING, True
 
     def _get_failure_end_state(self, start_state):
         rules = [
