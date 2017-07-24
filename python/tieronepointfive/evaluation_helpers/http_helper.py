@@ -64,13 +64,25 @@ class HttpHelper:
                 State.CABLE_MODEM_REBOOTING,
                 State.ROUTER_REBOOT_NEEDED,
                 False,
-                lambda config: False
+                lambda config: config.can_reboot_router
             ),
             TransitionRule(
                 State.CABLE_MODEM_REBOOT_FAILED,
                 State.ROUTER_REBOOT_NEEDED,
                 False,
-                lambda config: False
+                lambda config: config.can_reboot_router
+            ),
+            TransitionRule(
+                State.ROUTER_REBOOTING,
+                State.CONNECTION_FAILED,
+                False,
+                lambda config: True
+            ),
+            TransitionRule(
+                State.ROUTER_REBOOT_FAILED,
+                State.CONNECTION_FAILED,
+                False,
+                lambda config: True
             ),
         ]
 

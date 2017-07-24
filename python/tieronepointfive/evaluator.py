@@ -10,6 +10,9 @@ class Evaluator:
             State.CABLE_MODEM_REBOOT_NEEDED: wemo_helper,
             State.CABLE_MODEM_REBOOTING: http_helper,
             State.CABLE_MODEM_REBOOT_FAILED: http_helper,
+            State.ROUTER_REBOOT_NEEDED: wemo_helper,
+            State.ROUTER_REBOOTING: http_helper,
+            State.ROUTER_REBOOT_FAILED: http_helper,
             State.EMAIL_QUEUED: email_helper,
         }
 

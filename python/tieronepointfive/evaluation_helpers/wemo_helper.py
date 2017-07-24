@@ -21,6 +21,14 @@ class WemoHelper:
                     Transition.CABLE_MODEM_POWER_CYCLE_FAILED,
                     State.CABLE_MODEM_REBOOT_FAILED
                 ),
+            State.ROUTER_REBOOT_NEEDED:
+                WemoMode(
+                    self._config.router_switch,
+                    Transition.ROUTER_POWER_CYCLED,
+                    State.ROUTER_REBOOTING,
+                    Transition.ROUTER_POWER_CYCLE_FAILED,
+                    State.ROUTER_REBOOT_FAILED
+                )
         }
 
         mode = modes[tick.start_state]

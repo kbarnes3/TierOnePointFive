@@ -37,6 +37,7 @@ class Config:
         config = config_root['config']
         self._load_data_dir(config, default_dirs)
         self._load_cable_modem_switch(config)
+        self._load_router_switch(config)
         self._load_email_settings(config)
 
     def _load_data_dir(self, config, default_dirs):
@@ -67,6 +68,21 @@ class Config:
     @property
     def can_reboot_cable_modem(self):
         return self._cable_modem_switch is not None
+
+    def _load_router_switch(self, config):
+        router_switch_label = 'router_switch'
+        if router_switch_label in config:
+            self._router_switch = config[router_switch_label]
+        else:
+            self._router_switch = None
+
+    @property
+    def router_switch(self):
+        return self._router_switch
+
+    @property
+    def can_reboot_router(self):
+        return self.router_switch is not None
 
     def _load_email_settings(self, config):
         email_settings_label = 'email_settings'
