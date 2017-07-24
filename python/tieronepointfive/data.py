@@ -16,7 +16,7 @@ class DataPickler:
 
     def load(self):
         data_file = self._get_data_file()
-        if data_file.exists:
+        if data_file.exists():
             try:
                 data = self._load_existing_data(data_file)
             except:
