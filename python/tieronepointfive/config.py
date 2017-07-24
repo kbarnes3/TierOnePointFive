@@ -67,4 +67,85 @@ class Config:
     def can_reboot_cable_modem(self):
         return self._cable_modem_switch is not None
 
+    def _load_email_settings(self, config):
+        email_settings_label = 'email_settings'
+        if email_settings_label in config:
+            self._email_settings = EmailConfig(config[email_settings_label])
+        else:
+            self._email_settings = None
 
+    @property
+    def email_settings(self):
+        return self._email_settings
+
+    @property
+    def can_send_email(self):
+        return self._email_settings is not None
+
+
+class EmailConfig:
+    def __init__(self, email_settings):
+        self._server_address = email_settings['server_address']
+        self._server_port = email_settings['server_port']
+        self._login = email_settings['login']
+        self._password = email_settings['password']
+        self._sender = self._load_email_address(email_settings['sender'])
+
+        to_config = email_settings['to']
+        if len(to_config) < 1:
+            raise Exception('Must provide at least one To: email address')
+
+        self._to = [self._load_email_address(address) for address in to_config]
+
+    @staticmethod
+    def _load_email_address(email_address_config):
+        email_address = email_address_config['email']
+        name_label = 'name'
+        if name_label in email_address_config:
+            name = email_address_config[name_label]
+            return EmailAddressWithName(email_address, name)
+        else:
+            return EmailAddress(email_address)
+
+    @property
+    def server_address(self):
+        return self._server_address
+
+    @property
+    def server_port(self):
+        return self._server_port
+
+    @property
+    def login(self):
+        return self._login
+
+    @property
+    def password(self):
+        return self._password
+
+    @property
+    def sender(self):
+        return self._sender
+
+    @property
+    def to(self):
+        return self._to
+
+
+class EmailAddress:
+    def __init__(self, email_address):
+        self._email_address = email_address
+
+    @property
+    def email_address(self):
+        return self._email_address
+
+
+class EmailAddressWithName(EmailAddress):
+    def __init__(self, email_address, name):
+        super().__init__(email_address)
+        self._name = name
+
+    @property
+    def name(self):
+        return self._name

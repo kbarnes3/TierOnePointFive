@@ -2,6 +2,25 @@
   "config": {
     # Uncomment lines to override the defaults. Leave the lines commented or deleted them to accept the defaults
     #"data_dir":"",
-    #"cable_modem_switch": "Wemo Name"
+    #"cable_modem_switch": "Wemo Name",
+    #"email_settings": {
+    #  "server_address": "smtp.example.com",
+    #  "server_port": 465,
+    #  "login": "your_credentials",
+    #  "password": "your_password",
+    #  "sender": {
+    #    "email": "serviceaccount@example.com",
+    #    "name": "Tier 1.5"
+    #  },
+    #  "to": [
+    #    {
+    #      "email": "johndoe@example.com",
+    #      "name": "John Doe"
+    #    },
+    #    {
+    #      "email": "janedoe@example.com"
+    #    }
+    #  ]
+    #}
   }
 }
