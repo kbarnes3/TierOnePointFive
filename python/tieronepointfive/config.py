@@ -135,11 +135,11 @@ class EmailConfig:
 
 class EmailAddress:
     def __init__(self, email_address):
-        self._email_address = email_address
+        self._email = email_address
 
     @property
-    def email_address(self):
-        return self._email_address
+    def email(self):
+        return self._email
 
 
 class EmailAddressWithName(EmailAddress):

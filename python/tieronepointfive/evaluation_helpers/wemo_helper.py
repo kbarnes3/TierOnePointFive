@@ -10,7 +10,7 @@ class WemoHelper:
     def __init__(self, config):
         self._config = config
 
-    def evaluate(self, tick):
+    def evaluate(self, tick, **kwargs):
         WemoMode = namedtuple('WemoMode', ['switch_name', 'success_transition', 'success_end_state', 'failure_transition', 'failure_end_state'])
         modes = {
             State.CABLE_MODEM_REBOOT_NEEDED:

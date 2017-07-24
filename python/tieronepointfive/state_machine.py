@@ -56,7 +56,7 @@ class StateMachine:
         last_tick = self.tick_list[-1]
         new_tick = StateMachineTick(last_tick.end_state)
 
-        completed_tick = self.evaluator.evaluate_tick(new_tick)
+        completed_tick = self.evaluator.evaluate_tick(new_tick, self.tick_list)
         if completed_tick.is_steady():
             self.tick_list = [completed_tick]
         else:

@@ -9,7 +9,7 @@ class HttpHelper:
     def __init__(self, config):
         self._config = config
 
-    def evaluate(self, tick):
+    def evaluate(self, tick, **kwargs):
         sites = [
             'https://www.google.com',
             'https://www.bing.com',

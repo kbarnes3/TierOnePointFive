@@ -2,10 +2,25 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 
+from tieronepointfive.enums import State, Transition
+
 
 class EmailHelper:
     def __init__(self, config):
         self._config = config
+
+    def evaluate(self, tick, tick_list):
+        try:
+            self._send_email(tick_list)
+        except Exception as ex:
+            transition = Transition.EMAIL_FAILED
+            end_state = State.CONNECTION_FAILED
+        else:
+            transition = Transition.EMAIL_SENT
+            end_state = State.CONNECTION_WORKING
+
+        tick.complete(transition, end_state, True)
+        return tick
 
     def _send_email(self, tick_list):
         email_config = self._config.email_settings
