@@ -47,8 +47,9 @@ class Config:
         else:
             data_dir = default_dirs.data_directory
 
-        self._data_dir = Path(data_dir).resolve()
-        self._data_dir.mkdir(parents=True, exist_ok=True)
+        data_dir_path = Path(data_dir)
+        data_dir_path.mkdir(parents=True, exist_ok=True)
+        self._data_dir = data_dir_path.resolve()
 
     @property
     def data_directory(self):
