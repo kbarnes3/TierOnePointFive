@@ -1,3 +1,4 @@
+gevent==1.2.2
 -e ./python
 pytest-runner
 pytest
