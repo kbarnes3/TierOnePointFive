@@ -10,8 +10,9 @@ MANIFEST
 .eggs/
 *egg-info/
 
-#PyCharm files
+#IDE files
 .idea
+.vscode
 
 #TierOnePointFive test files
 config.json
