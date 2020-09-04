@@ -29,6 +29,11 @@ Write-Status "Updating pip"
 Write-Status "Updating requirements"
 & pip install -r (Join-Path $project_root "requirements.txt") $quiet
 
+if ($Global:console_functions) {
+    # Define or update the console scripts if we want them
+    . $PSScriptRoot\Console-Scripts.ps1
+}
+
 Pop-Location
 
 if (-Not $already_activated) {
